@@ -1,6 +1,7 @@
 package com.chatop.chatop.controllers;
 
 import com.chatop.chatop.dto.AddRentalDTO;
+import com.chatop.chatop.dto.GetRentalDTO;
 import com.chatop.chatop.dto.UpdateRentalDTO;
 import com.chatop.chatop.entity.Rentals;
 import com.chatop.chatop.services.RentalsService;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,12 +73,26 @@ public class RentalsController {
             }
     )
     @GetMapping("")
-    public ResponseEntity<Map<String, List<Rentals>>> getAllRentals() {
+    public ResponseEntity<Map<String, List<GetRentalDTO>>> getAllRentals() {
         List<Rentals> allRentals = rentalsService.getAllRentals();
-        Map<String, List<Rentals>> response = new HashMap<>();
-        response.put("rentals", allRentals);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        List<GetRentalDTO> allRentalsDTO = new ArrayList<>();
+        for (Rentals rental : allRentals) {
+            GetRentalDTO rentalDTO = new GetRentalDTO(rental);
+            allRentalsDTO.add(rentalDTO);
+        }
+
+        Map<String, List<GetRentalDTO>> response = new HashMap<>();
+        response.put("rentals", allRentalsDTO);
+
+        if (!allRentalsDTO.isEmpty()) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+
+
+
 
     @Operation(
             summary = "Get a rental by ID",
@@ -88,15 +104,17 @@ public class RentalsController {
     )
 
     @GetMapping("/{id}")
-    public ResponseEntity<Rentals> getRentalById(
+    public ResponseEntity<GetRentalDTO> getRentalById(
             @Parameter(description = "ID of the rental") @PathVariable Long id) {
         Rentals rental = rentalsService.getRentalById(id);
         if (rental != null) {
-            return new ResponseEntity<>(rental, HttpStatus.OK);
+            GetRentalDTO rentalDTO = new GetRentalDTO(rental);
+            return new ResponseEntity<>(rentalDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     @Operation(
             summary = "Update a rental by ID",

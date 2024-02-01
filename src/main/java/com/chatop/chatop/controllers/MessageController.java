@@ -1,5 +1,6 @@
 package com.chatop.chatop.controllers;
 
+import com.chatop.chatop.dto.MessageDTO;
 import com.chatop.chatop.entity.Message;
 import com.chatop.chatop.services.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,11 @@ public class MessageController {
     )
 
     @PostMapping("/messages")
-    public ResponseEntity<HashMap> createMessage(@RequestBody Message message) {
+    public ResponseEntity<HashMap> createMessage(@RequestBody MessageDTO messageDTO) {
+        Message message = new Message();
+        message.setMessage(messageDTO.getMessage());
+        message.setRental_id(messageDTO.getRentalId());
+        message.setUser_id(messageDTO.getUserId());
         String Message;
         HttpStatus Status;
         boolean success = messageService.addMessage(message);

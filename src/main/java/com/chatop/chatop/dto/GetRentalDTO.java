@@ -1,6 +1,10 @@
 package com.chatop.chatop.dto;
 
 
+import com.chatop.chatop.entity.Rentals;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class GetRentalDTO {
     public Long id;
@@ -11,12 +15,21 @@ public class GetRentalDTO {
     public String description;
     public String picture;
 
-    public GetRentalDTO(Long id, String name, int surface, int price, String description, String picture) {
-        this.id = id;
-        this.name = name;
-        this.surface = surface;
-        this.price = price;
-        this.description = description;
-        this.picture = picture;
+    public int owner_id;
+
+    public Date createdAt;
+
+    public LocalDateTime updatedAt;
+
+    public GetRentalDTO(Rentals rental) {
+        this.id = rental.getId();
+        this.name = rental.getName();
+        this.surface = rental.getSurface();
+        this.price = rental.getPrice();
+        this.description = rental.getDescription();
+        this.picture = rental.getPicture();
+        this.owner_id = rental.getOwner_id();
+        this.createdAt = rental.getCreatedAt();
+        this.updatedAt = rental.getUpdatedAt();
     }
 }
