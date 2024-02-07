@@ -33,15 +33,17 @@ ChaTop représente une plateforme en ligne qui facilite la mise en relation entr
 spring.datasource.url=
 spring.datasource.username=
 spring.datasource.password=
-server.port=
+
 
 Lancer le projet
 
 ### Frontend
-Récupérez le code depuis ce dépôt et suivez les instructions.
-ng serve
+Récupérez le code depuis ce dépôt:
+https://github.com/OpenClassrooms-Student-Center/Developpez-le-back-end-en-utilisant-Java-et-Spring
+et suivez les instructions.
+
 
 Il sera accessible à l'adresse localhost:4200
 
 Documentation
-Accédez à la documentation des différentes routes de l'API à l'adresse http://localhost:{PORT}/api/swagger-ui/index.html#/
+Accédez à la documentation des différentes routes de l'API à l'adresse http://localhost:3001/api/swagger-ui/index.html#/
