@@ -39,6 +39,7 @@ Lancer le projet
 
 ### Frontend
 Récupérez le code depuis ce dépôt et suivez les instructions.
+ng serve
 
 Il sera accessible à l'adresse localhost:4200
 
