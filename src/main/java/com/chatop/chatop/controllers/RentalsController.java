@@ -4,6 +4,7 @@ import com.chatop.chatop.dto.AddRentalDTO;
 import com.chatop.chatop.dto.GetRentalDTO;
 import com.chatop.chatop.dto.UpdateRentalDTO;
 import com.chatop.chatop.entity.Rentals;
+import com.chatop.chatop.schemaResApi.messageSchema;
 import com.chatop.chatop.services.RentalsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,8 +38,22 @@ public class RentalsController {
             summary = "Add a new rental",
             description = "Endpoint to add a new rental",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Rental added successfully"),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+                    @ApiResponse(
+                            description = "sucess",
+                            responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = messageSchema.class))
+                    ),
+                    @ApiResponse(
+                            description = "Ressource non trouvée",
+                            responseCode = "404",
+                            content = @Content(schema = @Schema(hidden = true))
+                    ),
+                    @ApiResponse(
+                            description = "Utilisateur non authentifié",
+                            responseCode = "403",
+                            content = @Content(schema = @Schema(hidden = true))
+                    )
+
             },
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(
@@ -69,7 +84,17 @@ public class RentalsController {
             summary = "Get all rentals",
             description = "Endpoint to retrieve all rentals",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "List of all rentals")
+                    @ApiResponse(responseCode = "200", description = "List of all rentals"),
+                    @ApiResponse(
+                            description = "Rental not found",
+                            responseCode = "404",
+                            content = @Content(schema = @Schema(hidden = true))
+                    ),
+                    @ApiResponse(
+                            description = "Utilisateur non authentifié",
+                            responseCode = "403",
+                            content = @Content(schema = @Schema(hidden = true))
+                    )
             }
     )
     @GetMapping("")
@@ -99,7 +124,17 @@ public class RentalsController {
             description = "Endpoint to retrieve a rental by ID",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Rental found"),
-                    @ApiResponse(responseCode = "404", description = "Rental not found")
+                    @ApiResponse(
+                            description = "Rental not found",
+                            responseCode = "404",
+                            content = @Content(schema = @Schema(hidden = true))
+                    ),
+
+                    @ApiResponse(
+                            description = "Utilisateur non authentifié",
+                            responseCode = "403",
+                            content = @Content(schema = @Schema(hidden = true))
+                    )
             }
     )
 
@@ -120,8 +155,13 @@ public class RentalsController {
             summary = "Update a rental by ID",
             description = "Endpoint to update a rental by ID",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Rental updated successfully"),
-                    @ApiResponse(responseCode = "404", description = "Rental not found")
+                    @ApiResponse(responseCode = "200", description = "Rental updated successfully", content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Rental not found", content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(
+                            description = "Utilisateur non authentifié",
+                            responseCode = "403",
+                            content = @Content(schema = @Schema(hidden = true))
+                    )
             }
     )
     @PutMapping("/{id}")

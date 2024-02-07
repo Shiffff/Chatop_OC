@@ -17,7 +17,6 @@ public class MessageService {
 
     public boolean addMessage(Message message) {
         try {
-            // Enregistrer le message dans la base de données
             messageRepository.save(message);
             return true;
         } catch (Exception e) {

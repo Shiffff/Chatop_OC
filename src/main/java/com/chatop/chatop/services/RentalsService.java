@@ -65,7 +65,7 @@ public class RentalsService {
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         fileOutputStream.write(picture.getBytes());
         fileOutputStream.close();
-        return "http://localhost:9191/api/public/" + fileName;
+        return "http://localhost:3001/api/public/" + fileName;
     }
 
     private String generateUniqueFileName(String originalFileName) {
