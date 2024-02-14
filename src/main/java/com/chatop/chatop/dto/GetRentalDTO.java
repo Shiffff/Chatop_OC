@@ -17,9 +17,9 @@ public class GetRentalDTO {
 
     public int owner_id;
 
-    public Date createdAt;
+    public Date created_at;
 
-    public LocalDateTime updatedAt;
+    public LocalDateTime updated_at;
 
     public GetRentalDTO(Rentals rental) {
         this.id = rental.getId();
@@ -29,7 +29,7 @@ public class GetRentalDTO {
         this.description = rental.getDescription();
         this.picture = rental.getPicture();
         this.owner_id = rental.getOwner_id();
-        this.createdAt = rental.getCreatedAt();
-        this.updatedAt = rental.getUpdatedAt();
+        this.created_at = rental.getCreatedAt();
+        this.updated_at = rental.getUpdatedAt();
     }
 }
