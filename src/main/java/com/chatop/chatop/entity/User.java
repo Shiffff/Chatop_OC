@@ -1,6 +1,10 @@
 package com.chatop.chatop.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,21 +23,29 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "password")
+    private Long id;
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 90)
     private String password;
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 90)
     private String name;
+    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 90)
+    @Email(message = "Please provide a valid email address")
     private String email;
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
-
+    private LocalDateTime updated_at;
     @CreationTimestamp
-    private Date createdAt;
+    private Date created_at;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

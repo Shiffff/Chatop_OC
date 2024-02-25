@@ -34,34 +34,6 @@ public class RentalsController {
         this.rentalsService = rentalsService;
     }
 
-    @Operation(
-            summary = "Add a new rental",
-            description = "Endpoint to add a new rental",
-            responses = {
-                    @ApiResponse(
-                            description = "sucess",
-                            responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = messageSchema.class))
-                    ),
-                    @ApiResponse(
-                            description = "Ressource non trouvée",
-                            responseCode = "404",
-                            content = @Content(schema = @Schema(hidden = true))
-                    ),
-                    @ApiResponse(
-                            description = "Utilisateur non authentifié",
-                            responseCode = "403",
-                            content = @Content(schema = @Schema(hidden = true))
-                    )
-
-            },
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    content = @Content(
-                            mediaType = "multipart/form-data",
-                            schema = @Schema(implementation = AddRentalDTO.class)
-                    )
-            )
-    )
     @PostMapping("")
     public ResponseEntity<HashMap<String, String>> addRental(@ModelAttribute AddRentalDTO addRentalDTO) {
 
@@ -80,23 +52,7 @@ public class RentalsController {
         return new ResponseEntity<>(map, status);
     }
 
-    @Operation(
-            summary = "Get all rentals",
-            description = "Endpoint to retrieve all rentals",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "List of all rentals"),
-                    @ApiResponse(
-                            description = "Rental not found",
-                            responseCode = "404",
-                            content = @Content(schema = @Schema(hidden = true))
-                    ),
-                    @ApiResponse(
-                            description = "Utilisateur non authentifié",
-                            responseCode = "403",
-                            content = @Content(schema = @Schema(hidden = true))
-                    )
-            }
-    )
+
     @GetMapping("")
     public ResponseEntity<Map<String, List<GetRentalDTO>>> getAllRentals() {
         List<Rentals> allRentals = rentalsService.getAllRentals();
@@ -117,27 +73,6 @@ public class RentalsController {
     }
 
 
-
-
-    @Operation(
-            summary = "Get a rental by ID",
-            description = "Endpoint to retrieve a rental by ID",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Rental found"),
-                    @ApiResponse(
-                            description = "Rental not found",
-                            responseCode = "404",
-                            content = @Content(schema = @Schema(hidden = true))
-                    ),
-
-                    @ApiResponse(
-                            description = "Utilisateur non authentifié",
-                            responseCode = "403",
-                            content = @Content(schema = @Schema(hidden = true))
-                    )
-            }
-    )
-
     @GetMapping("/{id}")
     public ResponseEntity<GetRentalDTO> getRentalById(
             @Parameter(description = "ID of the rental") @PathVariable Long id) {
@@ -150,20 +85,6 @@ public class RentalsController {
         }
     }
 
-
-    @Operation(
-            summary = "Update a rental by ID",
-            description = "Endpoint to update a rental by ID",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Rental updated successfully", content = @Content(schema = @Schema(hidden = true))),
-                    @ApiResponse(responseCode = "404", description = "Rental not found", content = @Content(schema = @Schema(hidden = true))),
-                    @ApiResponse(
-                            description = "Utilisateur non authentifié",
-                            responseCode = "403",
-                            content = @Content(schema = @Schema(hidden = true))
-                    )
-            }
-    )
     @PutMapping("/{id}")
     public ResponseEntity<HashMap<String, String>> updateRental(
             @Parameter(description = "ID of the rental") @PathVariable Long id,

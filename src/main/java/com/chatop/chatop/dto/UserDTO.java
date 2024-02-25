@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class UserDTO {
     public String email;
-    public int id;
+    public Long id;
     public String name;
     public Date created_at;
     public LocalDateTime updated_at;
@@ -14,9 +14,9 @@ public class UserDTO {
     public UserDTO(User user) {
         this.email = user.getEmail();
         this.id = user.getId();
-        this.updated_at = user.getUpdatedAt();
+        this.updated_at = user.getUpdated_at();
         this.name = user.getName();
-        this.created_at = user.getCreatedAt();
+        this.created_at = user.getCreated_at();
 
     }
 

@@ -29,37 +29,12 @@
             this.messageService = messageService;
         }
 
-        @Operation(
-                tags = "Message ctrl",
-                description = "send message to rental owner",
-                responses = {
-                        @ApiResponse(
-                                description = "sucess",
-                                responseCode = "200",
-                                content = @Content(schema = @Schema(implementation = messageSchema.class))
-                        ),
-                        @ApiResponse(
-                                description = "Ressource non trouvée",
-                                responseCode = "404",
-                                content = @Content(schema = @Schema(hidden = true))
-                        ),
-                        @ApiResponse(
-                                description = "Utilisateur non authentifié",
-                                responseCode = "403",
-                                content = @Content(schema = @Schema(hidden = true))
-                        )
-
-                }
-
-
-        )
-
         @PostMapping("/messages")
         public ResponseEntity<HashMap> createMessage(@RequestBody MessageDTO messageDTO) {
             Message message = new Message();
             message.setMessage(messageDTO.getMessage());
-            message.setRental_id(messageDTO.getRentalId());
-            message.setUser_id(messageDTO.getUserId());
+            message.setRental_id(messageDTO.getRental_id());
+            message.setUser_id(messageDTO.getUser_id());
             String Message;
             HttpStatus Status;
             boolean success = messageService.addMessage(message);

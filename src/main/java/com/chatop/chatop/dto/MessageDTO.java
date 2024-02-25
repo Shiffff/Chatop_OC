@@ -2,8 +2,8 @@ package com.chatop.chatop.dto;
 
 public class MessageDTO {
     private String message;
-    private Long rentalId;
-    private Long userId;
+    private Long rental_id;
+    private Long user_id;
 
     public String getMessage() {
         return message;
@@ -13,19 +13,19 @@ public class MessageDTO {
         this.message = message;
     }
 
-    public Long getRentalId() {
-        return rentalId;
+    public Long getRental_id() {
+        return rental_id;
     }
 
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
+    public void setRental_id(Long rental_id) {
+        this.rental_id = rental_id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 }
