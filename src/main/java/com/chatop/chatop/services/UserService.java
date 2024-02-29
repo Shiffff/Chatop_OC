@@ -21,16 +21,7 @@ public class UserService implements UserDetailsService {
 
 
     public void register(User user) {
-        if(!user.getEmail().contains("@")){
-            throw new RuntimeException("Votre email est invalide");
-        }
-        if(!user.getEmail().contains(".")){
-            throw new RuntimeException("Votre email est invalide");
-        }
         Optional<User> userOptional = this.userRepository.findByEmail(user.getEmail());
-        if(userOptional.isPresent()){
-            throw new RuntimeException("Votre email est déja utilisé");
-        }
         String cryptedPassword = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(cryptedPassword);
         this.userRepository.save(user);

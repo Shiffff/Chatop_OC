@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,24 +34,30 @@ public class RentalsController {
     public RentalsController(RentalsService rentalsService) {
         this.rentalsService = rentalsService;
     }
-
+    @Operation(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(
+                            mediaType = "multipart/form-data",
+                            schema = @Schema(implementation = AddRentalDTO.class)
+                    )
+            )
+    )
     @PostMapping("")
     public ResponseEntity<HashMap<String, String>> addRental(@ModelAttribute AddRentalDTO addRentalDTO) {
-
-        String message;
-        HttpStatus status;
-        boolean result = rentalsService.addRental(addRentalDTO);
-        if (result) {
-            message = "Location ajoutée avec succès";
-            status = HttpStatus.OK;
-        } else {
-            message = "Erreur lors de l'ajout de la location";
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        try {
+            boolean result = rentalsService.addRental(addRentalDTO);
+            String message = result ? "Location ajoutée avec succès" : "Erreur lors de l'ajout de la location";
+            HttpStatus status = result ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+            HashMap<String, String> map = new HashMap<>();
+            map.put("message", message);
+            return new ResponseEntity<>(map, status);
+        } catch (ConstraintViolationException ex) {
+            throw ex; // Laissez cette exception être gérée par l'Advice
+        } catch (Exception ex) {
+            throw new RuntimeException("Erreur lors de l'ajout de la location", ex);
         }
-        HashMap<String, String> map = new HashMap<>();
-        map.put("message", message);
-        return new ResponseEntity<>(map, status);
     }
+
 
 
     @GetMapping("")

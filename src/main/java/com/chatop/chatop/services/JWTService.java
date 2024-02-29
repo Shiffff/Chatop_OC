@@ -3,6 +3,7 @@ package com.chatop.chatop.services;
 
 import com.chatop.chatop.entity.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -24,7 +25,7 @@ public class JWTService {
     private final String ENCRIPTION_KEY = "3b81cc37b2a3da8068762963446d1ab7ef989c501d49f0fe574add7061f13a53";
     private UserService userService;
 
-    public Map<String, String> generate (String username){
+    public Map<String, String> generate(String username) {
         User user = this.userService.loadUserByUsername(username);
         return this.generateJwt(user);
     }
@@ -39,7 +40,6 @@ public class JWTService {
                 Claims.EXPIRATION, new Date(expirationTime),
                 Claims.SUBJECT, user.getEmail()
         );
-
 
 
         final String bearer = Jwts.builder()
@@ -62,25 +62,23 @@ public class JWTService {
         return this.getClaim(token, Claims::getSubject);
     }
 
-    public Boolean isTokenExpired(String token) {
-        Date expirationDate =  this.getClaim(token, Claims::getExpiration);
 
-        return expirationDate.before(new Date());
-    }
-
-
-
-    private <T> T getClaim(String token, Function<Claims, T> function){
+    private <T> T getClaim(String token, Function<Claims, T> function) {
         Claims claims = getAllClaims(token);
         return function.apply(claims);
     }
 
     private Claims getAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(this.getKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(this.getKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            log.error("Expired JWT: {}", e.getMessage());
+            throw e;
+        }
 
+    }
 }

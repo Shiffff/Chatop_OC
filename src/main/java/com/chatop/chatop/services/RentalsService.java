@@ -26,10 +26,10 @@ public class RentalsService {
         this.rentalsRepository = rentalsRepository;
     }
 
-    public boolean addRental(AddRentalDTO addRentalDTO) {
+    public boolean addRental(AddRentalDTO addRentalDTO) throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        try {
+
             // Enregistrer l'image sur le disque
             String picturePath = savePictureOnDisk(addRentalDTO.picture());
 
@@ -46,10 +46,7 @@ public class RentalsService {
             rentalsRepository.save(rental);
 
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+
     }
 
 

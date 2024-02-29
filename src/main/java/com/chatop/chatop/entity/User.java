@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @NotBlank
     @NotNull
     @Size(min = 2, max = 90)
-    @Email(message = "Please provide a valid email address")
+    @Email
     private String email;
     @UpdateTimestamp
     private LocalDateTime updated_at;
@@ -61,8 +61,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
-
-
 
     @Override
     public boolean isAccountNonExpired() {
